@@ -13,6 +13,7 @@ body{
 #calc-container{
     background-color: #22252d;
     display: flex;
+    align-items: center;
     flex-direction: column;
     border-radius: 24px;
     padding: 1em 0 0 0;
@@ -26,13 +27,7 @@ body{
     background: #fff;
 }
 
-/* ----- DISPLAY SECTION ----- */
-
-#display-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+/* ----- THEME TOGGLE SECTION ----- */
 
 #theme-toggle{
     position: relative;
@@ -67,6 +62,40 @@ body{
     left: 42px;
     background: #292d36;
     content: url('./img/4587297.png');
+}
+
+/* ----- DISPLAY SECTION ----- */
+
+#display-container{
+    display: flex;
+    flex-direction: column;
+    align-items:stretch;
+    justify-content: flex-end;
+    height: 100px;
+    width: 250px;
+}
+
+#history-dp{
+    font-family: sans-serif;
+    font-size: 1em;
+    text-align: right;
+    margin-bottom: 1em;
+    color: #eaeaeb;
+}
+
+#history-dp.light{
+    color: #343740;
+}
+
+#result-dp{
+    font-family: sans-serif;
+    font-size: 2em;
+    text-align: right;
+    color: #fff;
+}
+
+#result-dp.light{
+    color: #292d36;
 }
 
 /* ----- BUTTON SECTION ----- */
