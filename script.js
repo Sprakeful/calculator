@@ -23,7 +23,8 @@ buttonItems.forEach((button) => {
    button.addEventListener('click', () => {
 
    if(!isNaN(parseFloat(button.textContent))){
-        if(parseFloat(resultContainer.textContent) === 0 && !resultContainer.textContent.includes('.'))
+        if((parseFloat(resultContainer.textContent) === 0 && !resultContainer.textContent.includes('.'))
+            || (resultContainer.textContent === Infinity || resultContainer.textContent === NaN))
             resultContainer.textContent = '';
         resultContainer.textContent += button.textContent;
    }
@@ -40,9 +41,12 @@ buttonItems.forEach((button) => {
    else if(button.textContent === '=' &&
           (historyContainer.textContent.includes('+') || historyContainer.textContent.includes('-')
         || historyContainer.textContent.includes('*') || historyContainer.textContent.includes('/'))){
-       if(!historyContainer.textContent.includes('=')){
-           historyContainer.textContent += resultContainer.textContent + ` ${button.textContent} `;
-           resultContainer.textContent = evalResult(historyContainer.textContent);
+        if(!historyContainer.textContent.includes('=')){
+            if(!(historyContainer.textContent.includes('/') && resultContainer.textContent === '0')){
+                historyContainer.textContent += resultContainer.textContent + ` ${button.textContent} `;
+                resultContainer.textContent = evalResult(historyContainer.textContent);
+            }
+            else alert('You can not divide by zero!');
        }
    } 
 
@@ -57,18 +61,24 @@ buttonItems.forEach((button) => {
    }
 
    else if (button.textContent === '+' || button.textContent === '-' || button.textContent === 'x' || button.textContent === '/'){
+
         if( (!historyContainer.textContent.includes('+') && !historyContainer.textContent.includes('-')
             && !historyContainer.textContent.includes('x') && !historyContainer.textContent.includes('/'))){
 
             historyContainer.textContent = resultContainer.textContent + ` ${button.textContent} `;   
             resultContainer.textContent = '0';
             }
+
+        else if(historyContainer.textContent.endsWith(' /') && button.textContent === '/')
+            alert('You can not divide by zero!');
+
         else if(!historyContainer.textContent.includes('=')){
             historyContainer.textContent = evalResult(historyContainer.textContent + resultContainer.textContent) 
                                                       + ` ${button.textContent} `;
                                         
             resultContainer.textContent = '0';
         }
+        
         else{
             historyContainer.textContent = resultContainer.textContent + ` ${button.textContent} `;
                                         
@@ -92,7 +102,7 @@ function evalResult(operation){
     if(elements[1] === '+') return parseFloat(elements[0]) + parseFloat(elements[2]);
     else if(elements[1] === '-') return  parseFloat(elements[0]) - parseFloat(elements[2]);
     else if(elements[1] === 'x') return  parseFloat(elements[0]) * parseFloat(elements[2]);
-    else if(elements[1] === '/') return  parseFloat(elements[0]) / parseFloat(elements[2]);
+    else if(elements[1] === '/') return parseFloat(elements[0]) / parseFloat(elements[2]);
 }
 
 themeToggle.onclick = () =>{ 
