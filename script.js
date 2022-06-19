@@ -17,86 +17,104 @@ function makeRows(rows, cols) {
     }
 }
 
+
 makeRows(5,4);
+
+document.addEventListener('keypress', (event) => {
+    var currentKey = event.key;
+    
+    if(currentKey === 'Backspace' || currentKey === 'C' || currentKey === 'c') userInteraction('C');
+
+    else if(parseFloat(currentKey) || currentKey === '0') userInteraction(currentKey);
+
+    else if(currentKey === 'Enter') userInteraction('=');
+
+    else userInteraction(currentKey);
+
+  }, false);
+
 const buttonItems = document.querySelectorAll('.button-item');
 buttonItems.forEach((button) => {
    button.addEventListener('click', () => {
+        userInteraction(button.textContent);
+    })
+});
 
-   if(!isNaN(parseFloat(button.textContent))){
+function userInteraction(input){
+    if(!isNaN(parseFloat(input))){
         if((parseFloat(resultContainer.textContent) === 0 && !resultContainer.textContent.includes('.'))
             || (resultContainer.textContent === Infinity || resultContainer.textContent === NaN))
             resultContainer.textContent = '';
-        resultContainer.textContent += button.textContent;
+        resultContainer.textContent += input;
    }
-   else if(button.textContent.includes('%')){
+   else if(input.includes('%')){
         historyContainer.textContent = resultContainer.textContent + " / 100 =";
         resultContainer.textContent = evalResult(historyContainer.textContent);
     }
 
-   else if(button.textContent === '.' && !resultContainer.textContent.includes('.')){
-        resultContainer.textContent += button.textContent;
+   else if(input === '.' && !resultContainer.textContent.includes('.')){
+        resultContainer.textContent += input;
    }
 
-   else if(button.textContent === '=' &&
+   else if(input === '=' &&
           (historyContainer.textContent.includes('+') || historyContainer.textContent.includes('-')
         || historyContainer.textContent.includes('x') || historyContainer.textContent.includes('/'))){
         if(!historyContainer.textContent.includes('=')){
             if(!(historyContainer.textContent.includes('/') && resultContainer.textContent === '0')){
-                historyContainer.textContent += resultContainer.textContent + ` ${button.textContent} `;
+                historyContainer.textContent += resultContainer.textContent + ` ${input} `;
                 resultContainer.textContent = evalResult(historyContainer.textContent);
             }
             else alert('You can not divide by zero!');
        }
    } 
 
-   else if(button.textContent === 'AC'){ 
+   else if(input === 'AC'){ 
         historyContainer.textContent = '';
         resultContainer.textContent = '0';
    }
 
-   else if(button.textContent === 'C'){
+   else if(input === 'C'){
     if(resultContainer.textContent != '0')
        resultContainer.textContent = resultContainer.textContent.slice(0, -1);
+    if(resultContainer.textContent === '') resultContainer.textContent = '0';
    }
 
-   else if (button.textContent === '+' || button.textContent === '-' || button.textContent === 'x' || button.textContent === '/'){
+   else if (input === '+' || input === '-' || input === 'x' || input === '/'){
         if( (!historyContainer.textContent.includes('+') && !historyContainer.textContent.includes('-')
             && !historyContainer.textContent.includes('x') && !historyContainer.textContent.includes('/'))){
 
-            historyContainer.textContent = resultContainer.textContent + ` ${button.textContent} `;   
+            historyContainer.textContent = resultContainer.textContent + ` ${input} `;   
             resultContainer.textContent = '0';
             }
         else if(historyContainer.textContent.endsWith(' / ') || historyContainer.textContent.endsWith(' + ')
                 || historyContainer.textContent.endsWith(' - ') || historyContainer.textContent.endsWith(' x '))
-                historyContainer.textContent = historyContainer.textContent.slice(0, -3) + ` ${button.textContent} `;
-        else if(historyContainer.textContent.endsWith(' / ') && button.textContent === '/'
+                historyContainer.textContent = historyContainer.textContent.slice(0, -3) + ` ${input} `;
+        else if(historyContainer.textContent.endsWith(' / ') && input === '/'
                 && resultContainer.textContent === '0')
             alert('You can not divide by zero!');
 
         else if(!historyContainer.textContent.includes('=')){
             historyContainer.textContent = evalResult(historyContainer.textContent + resultContainer.textContent) 
-                                                      + ` ${button.textContent} `;
+                                                      + ` ${input} `;
                                         
             resultContainer.textContent = '0';
         }
         
         else{
-            historyContainer.textContent = resultContainer.textContent + ` ${button.textContent} `;
+            historyContainer.textContent = resultContainer.textContent + ` ${input} `;
                                         
             resultContainer.textContent = '0';
         }
     }
-    else if(button.textContent === '+/-'){
+    else if(input === '+/-'){
         if(!(resultContainer.textContent === '0')){
             if(parseFloat(resultContainer.textContent) <= 0 ){
                 resultContainer.textContent = resultContainer.textContent.slice(1);
             }
             else resultContainer.textContent = '-' + resultContainer.textContent;
         }
+    }
 }
-
-})
-});
 
 function evalResult(operation){
     const elements = operation.split(" ");
