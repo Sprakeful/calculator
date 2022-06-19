@@ -29,7 +29,6 @@ buttonItems.forEach((button) => {
         resultContainer.textContent += button.textContent;
    }
    else if(button.textContent.includes('%')){
-        alert('lefut');
         historyContainer.textContent = resultContainer.textContent + " / 100 =";
         resultContainer.textContent = evalResult(historyContainer.textContent);
     }
@@ -61,15 +60,17 @@ buttonItems.forEach((button) => {
    }
 
    else if (button.textContent === '+' || button.textContent === '-' || button.textContent === 'x' || button.textContent === '/'){
-
         if( (!historyContainer.textContent.includes('+') && !historyContainer.textContent.includes('-')
             && !historyContainer.textContent.includes('x') && !historyContainer.textContent.includes('/'))){
 
             historyContainer.textContent = resultContainer.textContent + ` ${button.textContent} `;   
             resultContainer.textContent = '0';
             }
-
-        else if(historyContainer.textContent.endsWith(' /') && button.textContent === '/')
+        else if(historyContainer.textContent.endsWith(' / ') || historyContainer.textContent.endsWith(' + ')
+                || historyContainer.textContent.endsWith(' - ') || historyContainer.textContent.endsWith(' x '))
+                historyContainer.textContent = historyContainer.textContent.slice(0, -3) + ` ${button.textContent} `;
+        else if(historyContainer.textContent.endsWith(' / ') && button.textContent === '/'
+                && resultContainer.textContent === '0')
             alert('You can not divide by zero!');
 
         else if(!historyContainer.textContent.includes('=')){
