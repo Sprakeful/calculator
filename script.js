@@ -40,7 +40,7 @@ buttonItems.forEach((button) => {
 
    else if(button.textContent === '=' &&
           (historyContainer.textContent.includes('+') || historyContainer.textContent.includes('-')
-        || historyContainer.textContent.includes('*') || historyContainer.textContent.includes('/'))){
+        || historyContainer.textContent.includes('x') || historyContainer.textContent.includes('/'))){
         if(!historyContainer.textContent.includes('=')){
             if(!(historyContainer.textContent.includes('/') && resultContainer.textContent === '0')){
                 historyContainer.textContent += resultContainer.textContent + ` ${button.textContent} `;
